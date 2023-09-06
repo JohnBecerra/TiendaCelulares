@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Venta de celulares</title>
+    <link href="src/main/resources/css/styles.css" rel="stylesheet"/>
+    <style>
+        body {
+            background-image: url(https://images6.alphacoders.com/366/366326.jpg);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu {
+            background-color: #3498db;
+            text-align: center;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .catalogo {
+            margin: 20px;
+            text-align: center;
+        }
+
+        label {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #45AF92;
+        }
+
+        button {
+            background-color: #45AF92;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #357B63;
+        }
+
+        /* Estilo para la ventana emergente */
+        .ventana-emergente {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+<div class="menu">
+    <h1>Celumarket</h1>
+    <p>Compra tu celular al mejor precio</p>
+</div>
+<div class="catalogo">
+    <h3>Catalogo de productos</h3>
+    <label for="celulares">Elige un celular:</label>
+    <select id="celulares" name="celulares">
+        <option value="iphone">iPhone</option>
+        <option value="samsung">Samsung</option>
+        <option value="huawei">Huawei</option>
+        <option value="google-pixel">Google Pixel</option>
+
+    </select>
+    <button type="button" onclick="mostrarVentanaEmergente()">Ver detalles</button>
+</div>
+
+<!-- Ventana emergente oculta inicialmente -->
+<div class="ventana-emergente" id="ventanaEmergente" style="display: none;">
+    <!-- Contenido de la ventana emergente -->
+    <h3>Detalles del producto</h3>
+    <p></p>
+    <h3>Catálogo de celulares de la marca</h3>
+    <div id="catalogoCelulares">
+        <!-- Aquí se mostrará el catálogo de celulares -->
+    </div>
+    <button type="button" onclick="agregarAlCarrito()">Agregar al carrito</button>
+    <button type="button" onclick="cerrarVentanaEmergente()">Cerrar</button>
+</div>
+
+
+<script>
+    var detallesCelulares = {
+    iphone: "El iPhone es un teléfono móvil desarrollado por Apple Inc. Es conocido por su diseño elegante y su sistema operativo iOS.",
+    samsung: "Los teléfonos Samsung son populares por su pantalla AMOLED y su sistema operativo Android.",
+    huawei: "Los teléfonos Huawei son conocidos por su cámara de alta calidad y su interfaz de usuario EMUI.",
+    'google-pixel': "Los Google Pixel son teléfonos Android desarrollados por Google. Son conocidos por recibir actualizaciones rápidas de Android."
+};
+    function obtenerCatalogoDeMarca(marca) {
+    // Aquí puedes crear el catálogo de celulares de la marca seleccionada
+    // Puedes usar HTML dinámico o cargar los datos desde una fuente de datos externa.
+    // Aquí tienes un ejemplo simplificado:
+
+    var catalogo = '';
+
+    switch (marca) {
+        case 'iphone':
+            catalogo = `
+                <div class="producto">
+                    <h4>iPhone 14</h4>
+                    <p>Precio: $3'595.901</p>
+                </div>
+                <div class="producto">
+                    <h4>iPhone SE 3ra Generacion</h4>
+                    <p>Precio: $2'069.000</p>
+                </div>
+            `;
+            break;
+        case 'samsung':
+            catalogo = `
+                <div class="producto">
+                    <h4>Samsung Galaxy S22 Ultra</h4>
+                    <p>Precio: $4'699.569</p>
+                </div>
+                <div class="producto">
+                    <h4>Samsung Galaxy A52</h4>
+                    <p>Precio: $900.000</p>
+                </div>
+            `;
+            break;
+        // Agrega más casos para otras marcas si es necesario
+        default:
+            catalogo = 'No se encontraron productos para esta marca.';
+    }
+
+    return catalogo;
+}
+
+    function mostrarVentanaEmergente() {
+    var select = document.getElementById('celulares');
+    var celularSeleccionado = select.value;
+    var ventanaEmergente = document.getElementById('ventanaEmergente');
+    var detalles = detallesCelulares[celularSeleccionado];
+
+    if (detalles) {
+        ventanaEmergente.style.display = 'block';
+        ventanaEmergente.querySelector('p').textContent = detalles;
+
+        // Lógica para mostrar el catálogo de celulares de la marca
+        var catalogoCelulares = document.getElementById('catalogoCelulares');
+        catalogoCelulares.innerHTML = obtenerCatalogoDeMarca(celularSeleccionado);
+    } else {
+        alert('Selecciona un celular válido.');
+    }
+}
+
+
+    function cerrarVentanaEmergente() {
+        document.getElementById('ventanaEmergente').style.display = 'none';
+    }
+</script>
+</body>
+</html>
+
